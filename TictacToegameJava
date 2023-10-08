@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        char[][] board = new char[3][3];
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board.length; column++) {
+                board[row][column] = ' ';
+            }
+        }
+        char player = 'X'; // Means when game is starting it set to be X
+        boolean gameOver = false; //It means at that time game is not over it is starting point of game
+        Scanner sc = new Scanner(System.in);
+        while (!gameOver) {
+            printBoard(board);
+            System.out.print("Player " + player + " Enter your chance : ");
+            int row = sc.nextInt();
+            int column = sc.nextInt();
+            if (board[row][column] == ' ') { // if board is empty then take it chance
+                board[row][column] = player;
+                gameOver = haveWon(board, player);
+                if (gameOver) {
+                    System.out.println("Player " + player + " has Won the game");
+                } else {
+
+                    if (player == 'X') {
+                        player = 'O';
+                    } else {
+                        player = 'X';
+                    }
+                }
+            } else {
+                System.out.println("Invalid chance : Try Again");
+            }
+        }
+        printBoard(board);
+    }
+
+    public static void printBoard(char[][] board) {
+        for  (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board.length; column++) {
+                System.out.print(board[row][column] + "  | ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static boolean haveWon(char[][] board, char player) {
+        //Check the row first
+        for (int row = 0; row < board.length; row++) {
+            if (board[row][0] == player && board[row][1] == player && board[row][2] == player) {
+                return true;
+            }
+        }
+        // check columns
+        for (int column = 0; column < board.length; column++) {
+            if (board[0][column]== player && board[1][column] == player && board[2][column] == player){
+                return true;
+            }
+        }
+       // check diagonal
+       if (board[0][0] == player && board[1][1]==player && board[2][2]==player){
+           return true;
+       }
+        if (board[0][2] == player && board[1][1]==player && board[2][0]==player){
+            return true;
+        }
+        return false;
+    }
+}
